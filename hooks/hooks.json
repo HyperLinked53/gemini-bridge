@@ -1,0 +1,16 @@
+{
+  "description": "Optional stop-time Gemini review gate (disabled by default; toggle with /gemini-setup --enable-review-gate).",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/stop-review-gate-hook.py\"",
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  }
+}
