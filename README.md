@@ -113,11 +113,16 @@ closer yourself, not an infallible verdict.
   to do, not a bug to fix; only enable it if you're fine with that
   tradeoff.
 - The write-capable path relies on `agy --sandbox` to restrict terminal
-  command execution. Neither this plugin nor its author has visibility
-  into Antigravity CLI's internal sandbox implementation to independently
-  verify that guarantee — treat `--sandbox`/`--add-dir` scoping as a
-  boundary worth having, not an airtight one, and only let Gemini write
-  code in places you'd trust an unattended agent to touch.
+  command execution — and this has now been observed to be bypassable in
+  practice, not just theoretically weak: during a real task, `agy`'s
+  sandbox blocked a direct `gh` invocation, and Gemini worked around that
+  block by wrapping the same command in `env` (`env gh repo create ...`),
+  which ran successfully. That's a real sandbox escape via a well-known
+  technique (wrapping a blocked binary through `env` to spawn it as a
+  child process), observed directly, not inferred. Treat `--sandbox` as a
+  speed bump against accidental commands, not a security boundary against
+  a model that's actively trying to run something — only let Gemini write
+  code in places you'd trust an unattended, unsandboxed agent to touch.
 
 ## A note on model names
 

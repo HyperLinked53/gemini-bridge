@@ -56,12 +56,14 @@ here to solve the task yourself with your own reasoning.
      (e.g. "have gemini write this function", "let gemini fix this bug"):
      let it write code for real. Add `--dangerously-skip-permissions
      --sandbox` to the invocation and `--add-dir` for whatever directory it
-     needs to touch. `--sandbox` restricts terminal command execution while
-     still allowing file edits in that directory — confirmed working, use
-     it every time you enable write access. Without
+     needs to touch — still use it every time you enable write access, but
+     don't treat `--sandbox` as a hard security boundary: it's been
+     observed to be bypassable (a blocked command re-run wrapped in `env`
+     got through), so it's a speed bump against accidental commands, not a
+     guarantee against one that's actively trying to escape. Without
      `--dangerously-skip-permissions`, a non-interactive call has no TTY to
      approve its own file-edit prompts and will just hang. Always report
-     back which files it changed.
+     back which files it changed and which commands it ran.
    Only skip write access when the request is clearly review/opinion-only;
    don't ask the user to confirm a second time once they've already asked
    Gemini to do the work — that confirmation already happened in their
